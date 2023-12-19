@@ -10,7 +10,7 @@ app.use(express.json())
 
 dotenv.config()
 
-const dominiosPermitidos = [process.env.FRONTEND_URL, "http://localhost:5173"]
+const dominiosPermitidos = [process.env.FRONTEND_URL]
 const opciones = {
     origin: function (origin, callback) {
         if (dominiosPermitidos.indexOf(origin) !== -1) {
@@ -37,13 +37,13 @@ const io = new Server(servidor, {
         origin: process.env.FRONTEND_URL
     }
 })
-
+ 
 io.on("connection", server => {
     server.on("inicio", (url) => {
         server.join(url)
         // console.log("funciona coneccion", url)
     })
-
+ 
     server.on("mensaje enviado", data => {
         // console.log("mensaje enviado", data)
         server.to(data.IdRecibe).emit("recibir mensaje", data)

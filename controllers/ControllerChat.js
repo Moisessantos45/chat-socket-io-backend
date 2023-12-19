@@ -300,8 +300,9 @@ const actulizar_foto = async (req, res) => {
 
 const logout = async (req, res) => {
     const { id } = req.body
+    // console.log(id) 
     const user = await User.collection("Usuarios").doc(id).get()
-    if (!user) return res.status(404).json({ msg: "No se puedo realizar la accion" })
+    if (!user.id) return res.status(404).json({ msg: "No se puedo realizar la accion" })
     try {
         await User.collection("Usuarios").doc(id).set({ token: "", activo: false }, { merge: true });
         res.status(200).json({ msg: "Accion realizada correctamente" })
